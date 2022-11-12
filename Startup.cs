@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using net5_job_schedule_with_email.Contracts;
+using net5_job_schedule_with_email.Models;
+using net5_job_schedule_with_email.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +34,11 @@ namespace net5_job_schedule_with_email
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "net5_job_schedule_with_email", Version = "v1" });
             });
+
+            //To Register Dependency
+            services.AddSingleton<MailConfiguration>(Configuration.GetSection("MailConfiguration").Get<MailConfiguration>());
+            services.AddTransient<IEmailContracts, EmailRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
